@@ -1,0 +1,410 @@
+1)find-S
+
+import numpy as np
+import pandas as pd
+data=pd.read_csv('1.csv')
+print(data)
+a=np.array(data)[:,:-1]
+print(a)
+tgt=np.array(data)[:,-1]
+print(tgt)
+
+def train(c,t):
+    for i,val in enumerate(t):
+        if val=='yes':
+            sp_h=c[i].copy()
+            break
+    for i,val in enumerate(c):
+        if t[i]=='yes':
+            for x in range(len(sp_h)):
+                if val[x]!=sp_h[x]:
+                    sp_h[x]='?'
+                    return sp_h
+final_h=train(a,tgt)
+print(final_h)
+
+
+
+
+
+
+
+
+2)candi
+
+import pandas as pd
+import numpy as np
+data=pd.read_csv('1.csv')
+print(data)
+a=np.array(data)[:,:-1]
+print(a)
+tgt=np.array(data)[:,-1]
+print(tgt)
+sp_h=a[0].copy()
+g_h=['?'for i in range(len(sp_h))]
+print(sp_h)
+print(g_h)
+
+for i,h in enumerate(a):
+    if tgt[i]=='yes':
+        for x in range(len(sp_h)):
+            if h[x]!=sp_h[x]:
+                sp_h[x]='?'
+                g_h[x]='?'
+    elif tgt[i]=='no':
+        for x in range(len(sp_h)):
+            if h[x]!=sp_h[x]:
+                g_h[x]=sp_h[x]
+            else:
+                g_h[x]='?'
+print(sp_h)
+print(g_h)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3)apriori
+
+import pandas as pd
+from efficient_apriori import apriori
+data=pd.read_csv('3.csv',names=['name'],header=None)
+print(data)
+
+trans=[x.split(',') for x in data['name']]
+
+sets,rules=apriori(trans,min_support=.25,min_confidence=.5)
+print("freq items\n")
+
+for size,i in sets.items():
+ for itemset,sup in i.items():
+ print(f'items:{','.join(itemset):<20} sup:{sup:.2f}')
+print('rules\n')
+print(f"{'antecendent':<25}{'consequent':<25}{'support':<25}{'confident':<25}{'lift':<25}")
+
+for i in rules:
+ print(f"{','.join(i.lhs):<25}{','.join(i.rhs):<25}{i.support:<25.2f}{i.confidence:<25.2f}{i.lift:<25.2f}")
+
+
+4)linear
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error ,r2_score 
+data=pd.read_csv('4a.csv')
+print(data)
+
+x=data[['x']]
+y=data['y']
+
+model=LinearRegression()
+model.fit(x,y)
+
+pred=model.predict(x)
+
+mse=mean_squared_error(y,pred)
+r2=r2_score(y,pred)
+
+print(pred)
+print(mse)
+print(r2)
+
+plt.scatter(x,y)
+plt.plot(x,pred)
+plt.title('linear regression')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.show()
+
+4)logistic
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, roc_curve, auc
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+data=pd.read_csv('4.csv')
+print(data)
+
+x=data[['sd_hrs','slp_hrs','p_mark']]
+y=data['res']
+
+x_train,x_test,y_train,y_test= train_test_split(
+ x,y,test_size=0.25,random_state=40,stratify=y
+)
+
+scaler=StandardScaler()
+x_train=scaler.fit_transform(x_train)
+x_test=scaler.transform(x_test)
+
+model=LogisticRegression()
+model.fit(x_train,y_train)
+
+pred=model.predict(x_test)
+acc=accuracy_score(y_test,pred)
+cm=confusion_matrix(y_test,pred)
+cr=classification_report(y_test,pred)
+
+print('acc',acc)
+print('acc',cm)
+print('acc',cr)
+
+prob=model.predict_proba(x_test)[:,1]
+fpr,tpr,threshold=roc_curve(y_test,prob)
+roc_auc=auc(fpr,tpr)
+
+plt.plot(fpr,tpr,label=f"AUC={roc_auc:.2f}")
+plt.plot([0,1],[1,0],'--')
+plt.legend()
+plt.ylabel('tpr')
+plt.xlabel('fpr')
+plt.title('roc')
+plt.show()
+
+
+
+
+
+5)id3 algorithm 
+
+
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.tree import DecisionTreeClassifier ,export_text, plot_tree
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
+data=pd.read_csv('5th.csv')
+print(data)
+
+le= LabelEncoder()
+for column in data.columns:
+    data[column]=le.fit_transform(data[column])
+x=data.drop('buy',axis=1)
+y=data['buy']
+
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=.25)
+
+model=DecisionTreeClassifier()
+model.fit(x_train,y_train)
+pred=model.predict(x_test)
+acc=accuracy_score(y_test,pred)
+score=model.score(x_test,y_test)
+print(pred)
+print(acc)
+print(score)
+
+print("\nDecision Tree Rules:\n")
+rules= export_text(model, feature_names=list(x.columns))
+print(rules)
+
+plt.figure(figsize=(15, 4))
+plot_tree(
+    model,
+    feature_names=x.columns,
+    class_names=[str(a) for a in model.classes_],
+    filled=True
+)
+plt.title("Decision Tree Visualization")
+plt.show()
+
+6)NB
+
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
+
+data=pd.read_csv('5th.csv')
+print('data',data)
+
+
+le=LabelEncoder()
+for column in data.columns:
+    data[column]=le.fit_transform(data[column])
+
+x=data[['color','model','state']]
+y=data['buy']
+
+print('feature\n',x.head())
+print('tgt\n',y.head())
+
+x_train,x_test,y_train,y_test=train_test_split(
+    x,y,test_size=0.25,random_state=42,stratify=y
+)
+model=GaussianNB()
+model.fit(x_train,y_train)
+
+pred=model.predict(x_test)
+
+acc=accuracy_score(y_test,pred)
+print('acc\n',acc)
+
+
+
+
+7)back progpagation 
+
+
+import pandas as pd 
+from sklearn.preprocessing import LabelEncoder
+from sklearn.neural_network import MLPClassifier
+data=pd.read_csv('7.csv')
+print(data)
+
+le=LabelEncoder()
+for column in data.columns:
+ data[column]=le.fit_transform(data[column])
+x=data.drop('buy',axis=1)
+y=data['buy']
+
+model=MLPClassifier(hidden_layer_sizes=(5,1), max_iter=5000,verbose=True)
+model.fit(x,y)
+prob=model.predict_proba(x)
+pred=model.predict(x)
+print('\n',prob)
+print(pred)
+
+
+
+8)k means 
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+data=pd.read_csv('8.csv')
+print(data)
+
+km=KMeans(n_clusters=3)
+km.fit(data)
+
+cen=km.cluster_centers_
+print('centroid\n',cen)
+
+plt.scatter(data['x'],data['y'],c=km.labels_)
+plt.scatter(cen[:,0],cen[:,1],color='red')
+plt.title('kmeans')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.show()
+
+
+9)ipl prediction
+
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
+
+data=pd.read_csv('team.csv')
+print('ds\n',data)
+
+wins=data['winner'].value_counts()
+plt.bar(wins.index,wins.values)
+plt.title('wins by team')
+plt.xlabel('team')
+plt.ylabel('wins')
+plt.show()
+
+ven=data['venu'].value_counts()
+plt.bar(ven.index,ven.values)
+plt.title('matches by venu')
+plt.xlabel('team')
+plt.ylabel('no.of win')
+plt.show()
+
+toss=data['toss_win'].value_counts()
+plt.bar(toss.index,toss.values)
+plt.title('toss deci')
+plt.xlabel('team')
+plt.ylabel('count')
+plt.show()
+
+le=LabelEncoder()
+for column in data.columns:
+    data[column]=le.fit_transform(data[column])
+
+x=data.drop('winner',axis=1)
+y=data['winner']
+
+x_train,x_test,y_train,y_test= train_test_split(
+    x,y,test_size=0.25
+)
+def mod(model):
+  model.fit(x_train,y_train)
+  pred=model.predict(x_test)
+  acc=accuracy_score(y_test,pred)
+  print('model',model.__class__.__name__)
+  print('acc',acc)
+  print('predict',pred)
+  print('actual',y_test)
+  print('\n')
+
+mod(DecisionTreeClassifier())
+mod(GaussianNB())
+
+
+ 
+10) ekigibilty of customer for loan distribution 
+
+import pandas as pd 
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import LabelEncoder
+
+data=pd.read_csv('10.csv')
+print(data)
+
+le=LabelEncoder()
+for column in data.columns:
+    data[column]=le.fit_transform(data[column])
+x= data.drop('load_status',axis=1)
+y=data['load_status']
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=.25,)
+
+def mod(model):
+    model.fit(x_train,y_train)
+    pred=model.predict(x_test)
+   
+    acc1=accuracy_score(y_test,pred)
+    print(model.__class__.__name__)
+    print(acc1)
+
+    sample=x.iloc[[0]]
+    res=model.predict(sample)
+
+    if res[0]==0:
+        print('approved')
+    else:
+        print('no')
+
+mod(GaussianNB())
+mod(DecisionTreeClassifier())
+mod(LogisticRegression())
+print(le.classes_)
