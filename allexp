@@ -5,8 +5,8 @@ import pandas as pd
 
 data = pd.read_csv('1.csv')
 
-a = np.array(data)[:, :-1]   # features
-tgt = np.array(data)[:, -1]  # target
+a = np.array(data)[:, :-1]  
+tgt = np.array(data)[:, -1] 
 
 def train(a, tgt):
 
@@ -74,36 +74,36 @@ print(g_h)
 
 
 
-
-
-
-
-
-
-
-
-
-
 3)apriori
 
 import pandas as pd
 from efficient_apriori import apriori
-data=pd.read_csv('3.csv',names=['name'],header=None)
-print(data)
 
-trans=[x.split(',') for x in data['name']]
+data = pd.read_csv('3.csv', names=['name'], header=None)
 
-sets,rules=apriori(trans,min_support=.25,min_confidence=.5)
-print("freq items\n")
 
-for size,i in sets.items():
- for itemset,sup in i.items():
- print(f'items:{','.join(itemset):<20} sup:{sup:.2f}')
-print('rules\n')
-print(f"{'antecendent':<25}{'consequent':<25}{'support':<25}{'confident':<25}{'lift':<25}")
+trans = [x.split(',') for x in data['name']]
 
-for i in rules:
- print(f"{','.join(i.lhs):<25}{','.join(i.rhs):<25}{i.support:<25.2f}{i.confidence:<25.2f}{i.lift:<25.2f}")
+
+itemsets, rules = apriori(trans, min_support=0.25, min_confidence=0.5)
+
+
+print("Frequent Itemsets:")
+for size in itemsets:
+    for itemset in itemsets[size]:
+        print(itemset, "->", itemsets[size][itemset])
+
+
+print("\nRules:")
+for rule in rules:
+    print(rule)
+
+
+
+
+
+
+
 
 
 
@@ -144,47 +144,39 @@ plt.show()
 
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, roc_curve, auc
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-data=pd.read_csv('4.csv')
-print(data)
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report, roc_curve, auc
 
-x=data[['sd_hrs','slp_hrs','p_mark']]
-y=data['res']
+data = pd.read_csv('4.csv')
 
-x_train,x_test,y_train,y_test= train_test_split(
- x,y,test_size=0.25,random_state=40,stratify=y
-)
 
-scaler=StandardScaler()
-x_train=scaler.fit_transform(x_train)
-x_test=scaler.transform(x_test)
+x = data[['sd_hrs','slp_hrs','p_mark']]
+y = data['res']
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=42)
 
-model=LogisticRegression()
-model.fit(x_train,y_train)
 
-pred=model.predict(x_test)
-acc=accuracy_score(y_test,pred)
-cm=confusion_matrix(y_test,pred)
-cr=classification_report(y_test,pred)
+model = LogisticRegression().fit(x_train, y_train)
+pred = model.predict(x_test)
 
-print('acc',acc)
-print('acc',cm)
-print('acc',cr)
+print("Accuracy:", accuracy_score(y_test, pred))
+print("Confusion Matrix:\n", confusion_matrix(y_test, pred))
+print("Report:\n", classification_report(y_test, pred))
 
-prob=model.predict_proba(x_test)[:,1]
-fpr,tpr,threshold=roc_curve(y_test,prob)
-roc_auc=auc(fpr,tpr)
+prob = model.predict_proba(x_test)[:,1]
+fpr, tpr, _ = roc_curve(y_test, prob)
 
-plt.plot(fpr,tpr,label=f"AUC={roc_auc:.2f}")
+plt.plot(fpr, tpr, label=f"AUC={auc(fpr,tpr):.2f}")
 plt.plot([0,1],[1,0],'--')
+plt.xlabel("FPR"); plt.ylabel("TPR")
+plt.title("ROC Curve")
 plt.legend()
-plt.ylabel('tpr')
-plt.xlabel('fpr')
-plt.title('roc')
 plt.show()
+
+
+
+
+
 
 
 
@@ -240,6 +232,13 @@ plt.show()
 
 
 
+
+
+
+
+
+
+
 6)NB
 
 import pandas as pd
@@ -279,6 +278,11 @@ print('acc\n',acc)
 
 
 
+
+
+
+
+
 7)back progpagation 
 
 
@@ -306,6 +310,14 @@ print(pred)
 
 
 
+
+
+
+
+
+
+
+
 8)k means 
 
 import pandas as pd
@@ -326,6 +338,14 @@ plt.title('kmeans')
 plt.xlabel('x')
 plt.ylabel('y')
 plt.show()
+
+
+
+
+
+
+
+
 
 
 
@@ -396,6 +416,13 @@ mod(GaussianNB())
 
 
  
+
+
+
+
+
+
+
 10) ekigibilty of customer for loan distribution 
 
 import pandas as pd 
