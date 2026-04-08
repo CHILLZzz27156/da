@@ -48,11 +48,11 @@ sd_hrs	slp_hrs	p_mark	res
 5 & 6 & 7: Decision Tree & Naive Bayes
 
 color	model	state	buy
-red	suv	new	yes
+red	  suv	  new	  yes
 blue	sedan	used	no
-green	suv	new	yes
-red	sedan	used	no
-blue	suv	new	yes
+green	suv	  new 	yes
+red	  sedan	used	no
+blue	suv	  new	  yes
 green	sedan	used	no
 
 
@@ -77,13 +77,13 @@ x,y
 
 9: IPL Prediction
 
-team1	team2	venu	toss_win	winner
-CSK	MI	Chennai	CSK	CSK
-MI	RCB	Mumbai	MI	MI
-RCB	CSK	Bangalore	RCB	CSK
-MI	CSK	Mumbai	CSK	CSK
-RCB	MI	Bangalore	MI	MI
-CSK	RCB	Chennai	CSK	CSK
+team1	team2	venu	   toss_win	 winner
+CSK	  MI	  Chennai 	 CSK	    CSK
+MI  	RCB	  Mumbai	   MI	       MI
+RCB 	CSK	  Bangalore	 RCB	    CSK
+MI	  CSK 	Mumbai	   CSK	    CSK
+RCB  	MI	  Bangalore	 MI	       MI
+CSK 	RCB	  Chennai	   CSK	    CSK
 
 
 
@@ -93,11 +93,11 @@ CSK	RCB	Chennai	CSK	CSK
 10: Loan Prediction
 
 income	credit_score	age	load_status
-low	poor	25	no
-medium	fair	30	yes
-high	good	40	yes
-low	poor	22	no
-medium	good	35	yes
-high	excellent	45	yes
-low	fair	28	no
-medium	good	32	yes
+low	       poor      	25	    no
+medium	   fair	      30	    yes
+high	     good	      40	    yes
+low	       poor	      22	    no
+medium	   good	      35	    yes
+high	   excellent	  45	    yes
+low	       fair	      28	    no
+medium	   good	      32	    yes
