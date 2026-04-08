@@ -2,27 +2,30 @@
 
 import numpy as np
 import pandas as pd
-data=pd.read_csv('1.csv')
-print(data)
-a=np.array(data)[:,:-1]
-print(a)
-tgt=np.array(data)[:,-1]
-print(tgt)
 
-def train(c,t):
-    for i,val in enumerate(t):
-        if val=='yes':
-            sp_h=c[i].copy()
+data = pd.read_csv('1.csv')
+
+a = np.array(data)[:, :-1]   # features
+tgt = np.array(data)[:, -1]  # target
+
+def train(a, tgt):
+
+ 
+    for i, val in enumerate(tgt):
+        if val == 'yes':
+            sp_h = a[i].copy()
             break
-    for i,val in enumerate(c):
-        if t[i]=='yes':
-            for x in range(len(sp_h)):
-                if val[x]!=sp_h[x]:
-                    sp_h[x]='?'
-                    return sp_h
-final_h=train(a,tgt)
-print(final_h)
 
+    for i, val in enumerate(a):
+        if tgt[i] == 'yes':
+            for x in range(len(sp_h)):
+                if val[x] != sp_h[x]:
+                    sp_h[x] = '?'
+
+    return sp_h
+
+final_h = train(a, tgt)
+print(final_h)
 
 
 
