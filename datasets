@@ -1,0 +1,103 @@
+1 & 2: Find-S & Candidate
+
+sky	temp	humidity	wind	water	forecast	enjoy
+sunny	warm	normal	strong	warm	same	yes
+sunny	warm	high	strong	warm	same	yes
+rainy	cold	high	strong	warm	change	no
+sunny	warm	high	strong	cool	change	yes
+
+
+3: Apriori
+
+milk,bread
+milk,diaper,beer,egg
+milk,bread,diaper,beer
+bread,diaper,beer
+milk,bread,diaper,cola
+
+
+
+4a: Linear Regression
+
+x,y
+1,2
+2,4
+3,6
+4,8
+5,10
+6,12
+
+
+4: Logistic Regression
+
+sd_hrs	slp_hrs	p_mark	res
+2	6	40	0
+3	7	50	0
+5	6	65	1
+6	7	70	1
+1	5	30	0
+4	6	60	1
+2	6	45	0
+5	7	75	1
+
+
+
+
+
+
+5 & 6 & 7: Decision Tree & Naive Bayes
+
+color	model	state	buy
+red	suv	new	yes
+blue	sedan	used	no
+green	suv	new	yes
+red	sedan	used	no
+blue	suv	new	yes
+green	sedan	used	no
+
+
+
+
+
+8: K-Means
+
+x,y
+1,2
+2,3
+3,4
+8,7
+9,8
+10,9
+1,8
+2,9
+3,10
+
+
+
+
+9: IPL Prediction
+
+team1	team2	venu	toss_win	winner
+CSK	MI	Chennai	CSK	CSK
+MI	RCB	Mumbai	MI	MI
+RCB	CSK	Bangalore	RCB	CSK
+MI	CSK	Mumbai	CSK	CSK
+RCB	MI	Bangalore	MI	MI
+CSK	RCB	Chennai	CSK	CSK
+
+
+
+
+
+
+10: Loan Prediction
+
+income	credit_score	age	load_status
+low	poor	25	no
+medium	fair	30	yes
+high	good	40	yes
+low	poor	22	no
+medium	good	35	yes
+high	excellent	45	yes
+low	fair	28	no
+medium	good	32	yes
