@@ -103,6 +103,9 @@ for i in rules:
  print(f"{','.join(i.lhs):<25}{','.join(i.rhs):<25}{i.support:<25.2f}{i.confidence:<25.2f}{i.lift:<25.2f}")
 
 
+
+
+
 4)linear
 
 import pandas as pd
@@ -184,6 +187,8 @@ plt.show()
 
 
 
+
+
 5)id3 algorithm 
 
 
@@ -227,6 +232,11 @@ plot_tree(
 plt.title("Decision Tree Visualization")
 plt.show()
 
+
+
+
+
+
 6)NB
 
 import pandas as pd
@@ -263,6 +273,9 @@ print('acc\n',acc)
 
 
 
+
+
+
 7)back progpagation 
 
 
@@ -287,6 +300,9 @@ print(pred)
 
 
 
+
+
+
 8)k means 
 
 import pandas as pd
@@ -307,6 +323,10 @@ plt.title('kmeans')
 plt.xlabel('x')
 plt.ylabel('y')
 plt.show()
+
+
+
+
 
 
 9)ipl prediction
@@ -365,6 +385,11 @@ def mod(model):
 
 mod(DecisionTreeClassifier())
 mod(GaussianNB())
+
+
+
+
+
 
 
  
